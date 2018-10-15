@@ -26,7 +26,7 @@ class MIPSProgram:
   def HandleLine(self, line):
     loc = sum([x.Size() for x in self.instructions])
 
-    for replace,value in self.defines.iteritems():
+    for replace,value in self.defines.items():
       line = re.sub(replace, value, line)
 
     if re.match("^\s*$", line) is not None:
@@ -57,10 +57,10 @@ class MIPSProgram:
       inst = Instruction.parseline(self, loc, line)
       self.instructions.append(inst)
     except Exception as e:
-      print
-      print traceback.format_exc(e)
-      print "*** Invalid line: '%s'"%(line)
-      print
+      print()
+      print(traceback.format_exc(e))
+      print("*** Invalid line: '%s'"%(line))
+      print()
       sys.exit(1)
 
   def RegisterLabel(self, label, addr):
@@ -77,7 +77,7 @@ class MIPSProgram:
     if hasattr(label, '__call__'):
       value = label()
       return  value
-    if label not in self.labels.keys():
+    if label not in list(self.labels.keys()):
       raise Exception("Unknown label: '%s'"%(label))
 
     return self.labels[label]

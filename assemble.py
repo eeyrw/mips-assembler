@@ -8,7 +8,6 @@ import re
 import mips
 from register import Register
 from instruction import Instruction
-import instruction
 
 parser = argparse.ArgumentParser(description="A very small MIPS assembler.")
 parser.add_argument('filename')
@@ -40,21 +39,21 @@ endianness = "little" if args['littleendian'] else "top"
 
 if 'output' in args:
   with open(args['output'], 'w') as out:
-    print "Writing text to '%s'..."%(args['output']),
+    print("Writing text to '%s'..."%(args['output']), end=' ')
     bytes = mp.Bytes(endian=endianness)
     for b in bytes:
       out.write("%c"%(b,))
-  print "done!"
+  print("done!")
 
 if 'data_out' in args:
   with open(args['data_out'], 'w') as out:
-    print "Writing data to '%s'..."%(args['data_out']),
+    print("Writing data to '%s'..."%(args['data_out']), end=' ')
     for s in mp.data:
       out.write(s)
-  print "done!"
+  print("done!")
 
 if 'verbose' in args or 'output' not in args:
   binary = mp.Bytes(endian=endianness)
-  for j in range(len(binary)/4):
-    print "%02x %02x %02x %02x"%tuple(binary[j*4:j*4+4])
+  for j in range(len(binary)//4):
+    print("%02x %02x %02x %02x"%tuple(binary[j*4:j*4+4]))
 

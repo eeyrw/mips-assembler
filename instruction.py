@@ -127,9 +127,9 @@ class Instruction:
       imm=None, label=None):
 
     name = name.lower()
-    if name not in r_type.keys() and \
-       name not in i_type.keys() and \
-       name not in j_type.keys():
+    if name not in list(r_type.keys()) and \
+       name not in list(i_type.keys()) and \
+       name not in list(j_type.keys()):
       raise Exception("'%s' is not a MIPS opcode"%(name.lower()))
 
     self.program = program
@@ -189,7 +189,7 @@ class Instruction:
     raise Exception("'%s' not an instruction"%(line))
 
   def ToBinary(self):
-    if self.name in r_type.keys():
+    if self.name in list(r_type.keys()):
       b = 0                            # opcode
       b |= (self.rs.binary() << 21)    # rs
       b |= (self.rt.binary() << 16)    # rt
@@ -199,7 +199,7 @@ class Instruction:
       b |= (r_type[self.name][1] << 0) # funct
       return b
 
-    if self.name in i_type.keys():
+    if self.name in list(i_type.keys()):
       b = i_type[self.name][0] << 26 # opcode
       b |= (self.rs.binary() << 21)  # rs
       b |= (self.rt.binary() << 16)  # rt
@@ -223,7 +223,7 @@ class Instruction:
 
       return b
 
-    if self.name in j_type.keys():
+    if self.name in list(j_type.keys()):
       b = (j_type[self.name][0]) << 26 #opcode
       if self.label is not None:
         b |= (self.program.Label(self.label) +
